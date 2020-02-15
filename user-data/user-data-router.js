@@ -1,5 +1,5 @@
 const express = require("express");
-const db = require("./value-projects-model");
+const db = require("./user-data-model");
 
 const router = express.Router();
 
@@ -29,11 +29,12 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
+  console.log(req.body);
   try {
     const newresource = await db.add(req.body);
     res.status(201).json(newresource);
   } catch (err) {
-    next(err.message);
+    next(err);
   }
 });
 

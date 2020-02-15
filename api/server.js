@@ -8,7 +8,7 @@ const resourcesRouter = require("../resources/resource-router");
 const authRouter = require("../auth/auth-router");
 const valuesRouter = require("../values/values-router");
 const contextsRouter = require("../contexts/context-router");
-const valueProjectRouter = require("../value-projects/value-projects-router");
+const userDataRouter = require("../user-data/user-data-router");
 
 const server = express();
 
@@ -22,7 +22,7 @@ server.use("/api/projects", projectsRouter);
 server.use("/api/resources", resourcesRouter);
 server.use("/api/values", valuesRouter);
 server.use("/api/contexts", contextsRouter);
-server.use("/api/value/projects", valueProjectRouter);
+server.use("/api/user/data", userDataRouter);
 
 server.get("/", (req, res) => {
   res.send("<h5>Here to serve.");
@@ -31,7 +31,8 @@ server.get("/", (req, res) => {
 server.use((err, req, res, next) => {
   console.log(err.message);
   res.status(500).json({
-    message: "Something went wrong!"
+    message: "Something went wrong!",
+    error: err.message
   });
 });
 

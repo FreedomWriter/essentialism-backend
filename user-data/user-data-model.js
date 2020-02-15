@@ -1,26 +1,27 @@
 const db = require("../data/db.config");
 
-function find() {
-  return db("value_projects as vp")
-    .join("values as v", "vp.value_id")
-    .select();
+async function find() {
+  const value = await db("user_data");
+
+  return value;
 }
 
 function findById(id) {
-  return db("value_projects")
+  return db("user_data")
     .where({ id })
     .first();
 }
 
 async function add(value_project) {
-  const [id] = await db("value_projects").insert(value_project);
-  return db("value_projects")
-    .where({ id })
-    .first();
+  const { value_id, project_id } = value_project;
+  console.log(value_project);
+  const [id] = await db("user_data").insert(value_project);
+  console.log(id);
+  return findById(id);
 }
 
 async function update(id, body) {
-  await db("value_projects")
+  await db("user_data")
     .where({ id })
     .update(body);
 
@@ -28,7 +29,7 @@ async function update(id, body) {
 }
 
 function remove(id) {
-  return db("value_projects")
+  return db("user_data")
     .where({ id })
     .del();
 }
