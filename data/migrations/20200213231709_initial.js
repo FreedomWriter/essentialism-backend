@@ -13,6 +13,26 @@ exports.up = async function(knex) {
     tbl.string("value").notNullable();
     tbl.text("value_description");
   });
+
+  await knex.schema.createTable("user_values", tbl => {
+    tbl.increments();
+    tbl
+      .integer("value_id")
+      .unsigned()
+      .unique()
+      .references("id")
+      .inTable("values")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
+    tbl
+      .integer("user_id")
+      .unsigned()
+      .notNullable()
+      .references("id")
+      .inTable("users")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
+  });
   await knex.schema.createTable("projects", tbl => {
     tbl.increments();
     tbl
@@ -40,7 +60,15 @@ exports.up = async function(knex) {
   });
   await knex.schema.createTable("user_data", tbl => {
     tbl.increments();
-
+    tbl
+      .integer("user_id")
+      .notNullable()
+      .unsigned()
+      .unique()
+      .references("id")
+      .inTable("users")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
     tbl
       .integer("value_id")
       .notNullable()
