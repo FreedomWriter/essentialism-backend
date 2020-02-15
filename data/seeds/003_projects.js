@@ -1,12 +1,19 @@
 exports.seed = async function(knex) {
   await knex("projects").truncate();
   await knex("projects").insert([
-    { id: 1, project_name: "Hire a Dev", description: "Need much code." },
+    {
+      id: 1,
+      project_name: "Hire a Dev",
+      project_description: "Need much code.",
+      user_id: 1
+    },
     {
       id: 2,
       project_name: "Develop a Developer",
-      description: "Call me crazy, but this makes sense"
+      project_description: "Call me crazy, but this makes sense",
+      user_id: 1,
+      value_id: 6
     },
-    { id: 3, project_name: "Reap the rewards" }
+    { id: 3, project_name: "Reap the rewards", user_id: 1 }
   ]);
 };
