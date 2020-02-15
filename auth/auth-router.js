@@ -21,10 +21,11 @@ router.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
 
     const user = await usersModel.findBy({ username }).first();
-    const passwordValid = await bycrypt.compare(password, user.password);
+    console.log(user);
+    const passwordValid = await bycrypt.compareSync(password, user.password);
 
     if (user && passwordValid) {
-      req.session.user = user;
+      // req.session.user = user;
       res.status(200).json({
         message: `Welcome ${user.username}!`
       });
