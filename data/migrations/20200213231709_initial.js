@@ -1,7 +1,6 @@
 exports.up = async function(knex) {
   await knex.schema.createTable("users", users => {
     users.increments();
-
     users
       .string("username", 128)
       .notNullable()
@@ -19,7 +18,6 @@ exports.up = async function(knex) {
     tbl
       .integer("value_id")
       .unsigned()
-      .unique()
       .references("id")
       .inTable("values")
       .onUpdate("CASCADE")
@@ -159,6 +157,7 @@ exports.down = async function(knex) {
   await knex.schema.dropTableIfExists("tasks");
   await knex.schema.dropTableIfExists("user_data");
   await knex.schema.dropTableIfExists("projects");
+  await knex.schema.dropTableIfExists("user_values");
   await knex.schema.dropTableIfExists("values");
   await knex.schema.dropTableIfExists("users");
 };
