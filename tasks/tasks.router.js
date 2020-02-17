@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("./tasks-models");
+const validateTaskId = require("../middleware/validateTaskId");
 
 const router = express.Router({
   mergeParams: true

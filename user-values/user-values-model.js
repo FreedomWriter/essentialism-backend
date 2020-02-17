@@ -10,10 +10,12 @@ async function find(req) {
   return user_values;
 }
 
-function findById(id) {
-  return db("values")
-    .where({ id })
-    .first();
+async function findById(id) {
+  const user_value_by_id = await db("user_values as uv")
+    .where("value_id", id)
+    .leftJoin("values as v", "v.id", "uv.value_id")
+    .select("v.value", "v.value_description");
+  return user_value_by_id;
 }
 
 async function add(value) {

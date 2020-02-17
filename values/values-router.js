@@ -3,7 +3,7 @@ const valueModel = require("./values-model");
 const db = require("./values-model");
 
 const restricted = require("../middleware/restricted");
-const validateId = require("../middleware/validateId");
+const validateValueId = require("../middleware/validateValueId");
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get("/", restricted, async (req, res, next) => {
   }
 });
 
-router.get("/:id", restricted, validateId, async (req, res, next) => {
+router.get("/:id", restricted, validateValueId, async (req, res, next) => {
   const { id } = req.params;
   const value = await db.findById(id);
   res.json(value);
@@ -35,7 +35,7 @@ router.post("/", restricted, async (req, res, next) => {
   }
 });
 
-router.put("/:id", restricted, validateId, async (req, res, next) => {
+router.put("/:id", restricted, validateValueId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const value = await valueModel.update(id, req.body);
@@ -45,7 +45,7 @@ router.put("/:id", restricted, validateId, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", restricted, validateId, async (req, res, next) => {
+router.delete("/:id", restricted, validateValueId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await valueModel.remove(id);
