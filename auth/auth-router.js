@@ -13,7 +13,7 @@ function generateToken(user) {
     {
       userId: user.id
     },
-    secrets.jwt,
+    process.env.JWT_SECRET,
     {
       expiresIn: "7d"
     }
