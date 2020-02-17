@@ -10,14 +10,39 @@ async function find(req) {
   return user_values;
 }
 
+// may be a better implementation, will need to be tested
 async function findById(id) {
   const user_value_by_id = await db("user_values as uv")
     .where("value_id", id)
     .join("values as v", "v.id", "uv.value_id")
+    .join("users as u", "u.id", "uv.user_id")
     .first()
-    .select("v.value", "v.value_description");
+    .select(
+      "uv.user_id",
+      "u.username",
+      "uv.value_id",
+      "v.value",
+      "v.value_description"
+    );
   return user_value_by_id;
 }
+
+// functioning but pulling from values
+// async function findById(id) {
+//   const user_value_by_id = await db("user_values as uv")
+//     .where("value_id", id)
+//     .join("values as v", "v.id", "uv.value_id")
+//     .join("users as u", "u.id", "uv.user_id")
+//     .first()
+//     .select(
+//       "uv.user_id",
+//       "u.username",
+//       "uv.value_id",
+//       "v.value",
+//       "v.value_description"
+//     );
+//   return user_value_by_id;
+// }
 
 async function add(user_id, value) {
   const val = await db("values").findBy(value);
@@ -25,8 +50,7 @@ async function add(user_id, value) {
     const [id] = await db("values").insert(value);
     const userValue = await db("user_values")
       .where("user_id", user_id)
-      .where("value_id", id)
-      .insert(value)
+      .insert("value_id", id)
       .first();
     return userValue;
   } else {

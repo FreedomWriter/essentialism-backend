@@ -19,7 +19,6 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:userValueId", validateUserValueId, async (req, res, next) => {
   const { userValueId } = req.params;
-  console.log(`router: userValueId: `, userValueId);
   const value = await db.findById(userValueId);
   res.json(value);
   try {
