@@ -22,10 +22,18 @@ function findById(id) {
 }
 
 async function add(project_id, task) {
-  const [id] = await db("tasks")
+  await db("tasks")
     .where("project_id", project_id)
     .insert(task);
   return find(project_id);
+}
+
+async function update(id, body) {
+  await db("tasks")
+    .where({ id })
+    .update(body);
+
+  return findById(id);
 }
 
 function remove(id) {
@@ -38,5 +46,6 @@ module.exports = {
   find,
   add,
   remove,
-  findById
+  findById,
+  update
 };

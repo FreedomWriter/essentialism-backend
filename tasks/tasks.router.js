@@ -19,6 +19,7 @@ router.get("/", restricted, validateProjectId, async (req, res, next) => {
   }
 });
 
+// check model if this route is problematic
 router.post("/", restricted, validateProjectId, async (req, res, next) => {
   try {
     const { id } = req.params;
