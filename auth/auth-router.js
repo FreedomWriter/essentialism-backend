@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secrets = require("../config/secrets");
+const validator = require("../middleware/validator");
 
 const usersModel = require("../users/users-model.js");
 
@@ -19,23 +20,29 @@ function generateToken(user) {
   );
 }
 
-router.post("/register", async (req, res, next) => {
-  try {
-    let user = req.body;
-    const hash = bcrypt.hashSync(user.password, 10);
-    user.password = hash;
-    const saved = await usersModel.add(user);
+router.post(
+  "/register",
+  validator("username"),
+  validator("password"),
+  async (req, res, next) => {
+    try {
+      let user = req.body;
+      const hash = bcrypt.hashSync(user.password, 10);
+      user.password = hash;
+      const saved = await usersModel.add(user);
 
-    const token = await generateToken(saved);
+      const token = await generateToken(saved);
 
-    res.status(201).json({
-      message: `Welcome ${user.username}`,
-      authToken: token
-    });
-  } catch (err) {
-    next(err);
+      res.status(201).json({
+        message: `Welcome ${user.username}`,
+        authToken: token,
+        user_id: user.id
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -47,7 +54,8 @@ router.post("/login", async (req, res, next) => {
       const token = generateToken(user);
       res.status(200).json({
         message: `Welcome ${user.username}!`,
-        authToken: token
+        authToken: token,
+        user_id: user.id
       });
     } else {
       res.status(401).json({ message: "Invalid Credentials" });

@@ -4,7 +4,7 @@ const db = require("./projects-model");
 const tasksRouter = require("../tasks/tasks.router");
 
 const restricted = require("../middleware/restricted");
-
+const validateId = require("../middleware/validator");
 const router = express.Router();
 
 router.use("/:id/tasks", tasksRouter);
@@ -18,16 +18,11 @@ router.get("/", restricted, async (req, res, next) => {
   }
 });
 
-router.get("/:id", restricted, async (req, res, next) => {
+router.get("/:id", restricted, validateId, async (req, res, next) => {
   const { id } = req.params;
   const project = await db.findById(id);
-  if (project) {
-    res.json(project);
-  } else {
-    res
-      .status(404)
-      .json({ message: `Could not find project with id of ${id}` });
-  }
+  res.json(project);
+
   try {
   } catch (err) {
     next(err);
@@ -43,34 +38,22 @@ router.post("/", restricted, async (req, res, next) => {
   }
 });
 
-router.put("/:id", restricted, async (req, res, next) => {
+router.put("/:id", restricted, validateId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const project = await projectModel.update(id, req.body);
-    if (project) {
-      res.json(project);
-    } else {
-      res
-        .status(404)
-        .json({ message: `Could not find project with id of ${id}` });
-    }
+    res.json(project);
   } catch (err) {
     next(err);
   }
 });
 
-router.delete("/:id", restricted, async (req, res, next) => {
+router.delete("/:id", restricted, validateId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await projectModel.remove(id);
-    console.log(deletedCount);
-    if (deletedCount) {
-      res.json({ removed: deletedCount });
-    } else {
-      res
-        .status(404)
-        .json({ message: `Could not find project with id of ${id}` });
-    }
+
+    res.json({ removed: deletedCount });
   } catch (err) {
     next(err);
   }
