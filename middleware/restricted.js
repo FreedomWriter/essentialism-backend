@@ -7,7 +7,9 @@ module.exports = (req, res, next) => {
   if (token) {
     jwt.verify(token, secrets.jwt, (err, payload) => {
       if (err) {
-        res.status(403).json({ message: "You are not authorized" });
+        res
+          .status(403)
+          .json({ message: "You are not authorized", error: err.message });
       } else {
         req.userId = payload.userId;
         next();
