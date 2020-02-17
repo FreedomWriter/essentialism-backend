@@ -19,8 +19,8 @@ router.get("/", restricted, async (req, res, next) => {
 
 router.get("/:id", validateId, restricted, async (req, res, next) => {
   const { id } = req.params;
-  const project = await usersModel.findById(id);
-  res.json(project);
+  const user = await usersModel.findById(id);
+  res.json(user);
 
   try {
   } catch (err) {
@@ -30,8 +30,8 @@ router.get("/:id", validateId, restricted, async (req, res, next) => {
 
 router.post("/", restricted, async (req, res, next) => {
   try {
-    const newproject = await projectModel.add(req.body);
-    res.status(201).json(newproject);
+    const newuser = await userModel.add(req.body);
+    res.status(201).json(newuser);
   } catch (err) {
     next(err);
   }
@@ -40,8 +40,8 @@ router.post("/", restricted, async (req, res, next) => {
 router.put("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const project = await projectModel.update(id, req.body);
-    res.json(project);
+    const user = await userModel.update(id, req.body);
+    res.json(user);
   } catch (err) {
     next(err);
   }
@@ -50,7 +50,7 @@ router.put("/:id", restricted, async (req, res, next) => {
 router.delete("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedCount = await projectModel.remove(id);
+    const deletedCount = await userModel.remove(id);
 
     res.json({ removed: deletedCount });
   } catch (err) {

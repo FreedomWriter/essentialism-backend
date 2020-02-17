@@ -29,8 +29,9 @@ router.get("/:userValueId", validateUserValueId, async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const newvalue = await userValueModel.add(req.body);
+    const newvalue = await userValueModel.add(id, req.body);
     res.status(201).json(newvalue);
   } catch (err) {
     next(err);

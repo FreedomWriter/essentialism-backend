@@ -19,15 +19,27 @@ async function findById(id) {
   return user_value_by_id;
 }
 
-async function add(value) {
-  const [id] = await db("values").insert(value);
-  return db("values")
-    .where({ id })
-    .first();
+async function add(user_id, value) {
+  const val = await db("values").findBy(value);
+  if (!val) {
+    const [id] = await db("values").insert(value);
+    const userValue = await db("user_values")
+      .where("user_id", user_id)
+      .where("value_id", id)
+      .insert(value)
+      .first();
+    return userValue;
+  } else {
+    const userValueObj = { user_id, value_id: val.id };
+    const userValue = await db("user_values")
+      .insert(userValueObj)
+      .first();
+    return findById(userValue.id);
+  }
 }
 
 async function update(id, body) {
-  await db("values")
+  await db("user_values")
     .where({ id })
     .update(body);
 
@@ -35,7 +47,7 @@ async function update(id, body) {
 }
 
 function remove(id) {
-  return db("values")
+  return db("user_values")
     .where({ id })
     .del();
 }
