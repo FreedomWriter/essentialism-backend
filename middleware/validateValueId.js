@@ -1,16 +1,13 @@
 const userValuesModel = require("../user-values/user-values-model");
 
-async function validateValueId(req, res, next) {
+module.exports = async (req, res, next) => {
   try {
-    const value = await userValuesModel.findById(req.params.id);
-
-    if (!value) {
-      next(`No value found with the id of ${req.params.id}`);
+    const user = await userValuesModel.findById(req.params.id);
+    if (!user) {
+      next({ message: `No user-value found with the id of ${req.params.id}` });
     }
     next();
   } catch (err) {
-    next(err);
+    next();
   }
-}
-
-module.exports = validateValueId;
+};
