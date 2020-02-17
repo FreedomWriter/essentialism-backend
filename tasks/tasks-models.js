@@ -4,14 +4,21 @@ function find(project_id) {
   return db("tasks as t")
     .join("projects as p", "t.project_id", "p.id")
     .where({ project_id })
+    .first()
     .select(
       "p.project_name",
-      "p.description",
+      "p.project_description",
       "t.id",
-      "t.description",
-      "t.notes",
-      "t.complete"
+      "t.task_description",
+      "t.task_notes",
+      "t.task_complete"
     );
+}
+
+function findById(id) {
+  return db("tasks")
+    .where({ id })
+    .first();
 }
 
 async function add(project_id, task) {
@@ -30,5 +37,6 @@ function remove(id) {
 module.exports = {
   find,
   add,
-  remove
+  remove,
+  findById
 };
