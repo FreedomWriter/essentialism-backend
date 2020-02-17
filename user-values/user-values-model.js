@@ -13,7 +13,8 @@ async function find(req) {
 async function findById(id) {
   const user_value_by_id = await db("user_values as uv")
     .where("value_id", id)
-    .leftJoin("values as v", "v.id", "uv.value_id")
+    .join("values as v", "v.id", "uv.value_id")
+    .first()
     .select("v.value", "v.value_description");
   return user_value_by_id;
 }
