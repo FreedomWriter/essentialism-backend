@@ -12,8 +12,11 @@ router.get("/", restricted, validateProjectId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const tasks = await taskModel.find(id);
-
-    res.json(tasks);
+    if (tasks) {
+      res.json(tasks);
+    } else {
+      res.status(404).json({ message: `This project has no tasks!` });
+    }
   } catch (err) {
     next(err);
   }

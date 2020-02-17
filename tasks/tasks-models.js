@@ -4,7 +4,6 @@ function find(project_id) {
   return db("tasks as t")
     .join("projects as p", "t.project_id", "p.id")
     .where({ project_id })
-    .first()
     .select(
       "p.project_name",
       "p.project_description",
