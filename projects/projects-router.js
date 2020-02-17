@@ -4,7 +4,7 @@ const db = require("./projects-model");
 const tasksRouter = require("../tasks/tasks.router");
 
 const restricted = require("../middleware/restricted");
-const validateId = require("../middleware/validator");
+const validateProjectId = require("../middleware/validateProjectId");
 const router = express.Router();
 
 router.use("/:id/tasks", tasksRouter);
@@ -18,7 +18,7 @@ router.get("/", restricted, async (req, res, next) => {
   }
 });
 
-router.get("/:id", restricted, validateId, async (req, res, next) => {
+router.get("/:id", restricted, validateProjectId, async (req, res, next) => {
   const { id } = req.params;
   const project = await db.findById(id);
   res.json(project);
@@ -38,7 +38,7 @@ router.post("/", restricted, async (req, res, next) => {
   }
 });
 
-router.put("/:id", restricted, validateId, async (req, res, next) => {
+router.put("/:id", restricted, validateProjectId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const project = await projectModel.update(id, req.body);
@@ -48,7 +48,7 @@ router.put("/:id", restricted, validateId, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", restricted, validateId, async (req, res, next) => {
+router.delete("/:id", restricted, validateProjectId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await projectModel.remove(id);
