@@ -9,7 +9,10 @@ module.exports = (req, res, next) => {
       if (err) {
         res
           .status(403)
-          .json({ message: "You are not authorized", error: err.message });
+          .json({
+            message: "You are not authorized FROM RESTIRCTED MIDDLEWARE",
+            error: err.message
+          });
       } else {
         req.userId = payload.userId;
         next();
