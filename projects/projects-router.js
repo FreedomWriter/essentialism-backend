@@ -3,11 +3,13 @@ const projectModel = require("./projects-model");
 const db = require("./projects-model");
 const tasksRouter = require("../tasks/tasks.router");
 
+const restricted = require("../middleware/restricted");
+
 const router = express.Router();
 
 router.use("/:id/tasks", tasksRouter);
 
-router.get("/", async (req, res, next) => {
+router.get("/", restricted, async (req, res, next) => {
   try {
     const projects = await db.find();
     res.json(projects);
@@ -16,7 +18,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", restricted, async (req, res, next) => {
   const { id } = req.params;
   const project = await db.findById(id);
   if (project) {
@@ -32,7 +34,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", restricted, async (req, res, next) => {
   try {
     const newproject = await projectModel.add(req.body);
     res.status(201).json(newproject);
@@ -41,7 +43,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
     const project = await projectModel.update(id, req.body);
@@ -57,7 +59,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await projectModel.remove(id);

@@ -2,7 +2,6 @@ const express = require("express");
 const userValueModel = require("./user-values-model");
 const db = require("./user-values-model");
 const validateId = require("../middleware/validateId");
-const userDB = require("../users/users-model");
 
 const router = express.Router({
   mergeParams: true

@@ -2,9 +2,11 @@ const express = require("express");
 const contextsModel = require("./contexts-model");
 const db = require("./contexts-model");
 
+const restricted = require("../middleware/restricted");
+
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", restricted, async (req, res, next) => {
   try {
     const contexts = await db.find();
     res.json(contexts);
@@ -13,7 +15,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", restricted, async (req, res, next) => {
   const { id } = req.params;
   const context = await db.findById(id);
   if (context) {
@@ -29,7 +31,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", restricted, async (req, res, next) => {
   try {
     const newcontext = await contextsModel.add(req.body);
     res.status(201).json(newcontext);
@@ -38,7 +40,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
     const context = await contextsModel.update(id, req.body);
@@ -54,7 +56,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await contextsModel.remove(id);

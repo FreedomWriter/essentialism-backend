@@ -1,8 +1,7 @@
 const express = require("express");
-const bycrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secrets = require("../config/secrets");
-const restricted = require("../middleware/restricted");
 
 const usersModel = require("../users/users-model.js");
 
@@ -22,9 +21,12 @@ function generateToken(user) {
 
 router.post("/register", async (req, res, next) => {
   try {
-    const saved = await usersModel.add(req.body);
+    let user = req.body;
+    const hash = bcrypt.hashSync(user.password, 10);
+    user.password = hash;
+    const saved = await usersModel.add(user);
 
-    const token = generateToken(saved);
+    const token = await generateToken(saved);
 
     res.status(201).json({
       message: `Welcome ${user.username}`,
@@ -38,10 +40,8 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
-
     const user = await usersModel.findBy({ username }).first();
-    console.log(user);
-    const passwordValid = await bycrypt.compareSync(password, user.password);
+    const passwordValid = await bcrypt.compareSync(password, user.password);
 
     if (user && passwordValid) {
       const token = generateToken(user);
@@ -55,18 +55,6 @@ router.post("/login", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
-
-router.get("/logout", restricted(), (req, res, next) => {
-  req.session.destroy(err => {
-    if (err) {
-      next(err);
-    } else {
-      res.json({
-        message: "You are logged out"
-      });
-    }
-  });
 });
 
 module.exports = router;
