@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     const noUserValue = await userValuesModel.findById(req.params.userValueId);
     console.log(noUserValue);
     if (!noUserValue) {
-      next({
+      res.status(404).json({
         message: `No user-value found with the id of ${req.params.userValueId}`
       });
     }
