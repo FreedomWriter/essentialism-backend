@@ -1,13 +1,19 @@
+const secrets = require("../config/secrets");
+const jwt = require("jsonwebtoken");
+
 module.exports = () => {
-  const authError = {
-    message: "Invalid Credentials"
-  };
+  const token = req.headers.authorization;
 
-  return (req, res, next) => {
-    if (!req.session || !req.session.user) {
-      return res.status(401).json(authError);
-    }
-
-    next();
-  };
+  if (!token) {
+    res.status(400).json({ message: "No credentials provided" });
+  } else {
+    jwt.verify(token, secrets.jwt, (err, payload) => {
+      if (err) {
+        res.status(403).json({ message: "You are not authorized." });
+      } else {
+        req.userId = payload.userId;
+        next();
+      }
+    });
+  }
 };
