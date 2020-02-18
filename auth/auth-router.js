@@ -34,7 +34,7 @@ router.post(
 
       res.status(201).json({
         message: `Welcome ${user.username}`,
-        authToken: token,
+        token: token,
         user_id: user.id
       });
     } catch (err) {
@@ -53,7 +53,7 @@ router.post("/login", async (req, res, next) => {
       const token = generateToken(user);
       res.status(200).json({
         message: `Welcome ${user.username}!`,
-        authToken: token,
+        token: token,
         user_id: user.id
       });
     } else {
