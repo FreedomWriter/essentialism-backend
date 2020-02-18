@@ -13,6 +13,8 @@ async function find() {
     .select(
       "p.user_id",
       "u.username",
+      "p.value_id",
+      "v.value",
       "p.id",
       "p.project_name",
       "p.project_description",
@@ -24,18 +26,49 @@ async function find() {
       "r.resource_description",
       "c.context"
     );
-  const valuesArr = await db("projects as p")
-    .leftJoin("values as v", "p.value_id", "v.id")
-    .select("v.value");
-  const values = valuesArr.filter(value => value.value !== null);
-  return { values, project };
+  return project;
 }
 
-function findById(id) {
-  return db("projects")
-    .where({ id })
-    .first();
+async function findById(id) {
+  const project = await db("projects as p")
+    .leftJoin("values as v", "p.value_id", "v.id")
+    .leftJoin("users as u", "u.id", "p.user_id")
+    .leftJoin("user_data as ud", "ud.project_id", "p.id")
+    .where("p.id", id)
+    .select(
+      "p.id",
+      "p.user_id",
+      "u.username",
+      "p.value_id",
+      "v.value",
+      "p.project_name",
+      "p.project_description",
+      "p.project_complete"
+    );
+
+  const tasks = await db("projects as p")
+    .leftJoin("tasks as t", "t.project_id", "p.id")
+    .where("p.id", id)
+    .select("t.id", "t.task_description", "t.task_notes", "t.task_complete");
+  const resources = await db("projects as p")
+    .leftJoin("project_resources as pr", "pr.project_id", "p.id")
+    .leftJoin("resources as r", "r.id", "pr.resource_id")
+    .where("p.id", id)
+    .select("r.resource_name", "r.resource_description");
+  const contexts = await db("projects as p")
+    .leftJoin("tasks as t", "t.project_id", "p.id")
+    .leftJoin("task_contexts as tc", "tc.task_id", "t.id")
+    .leftJoin("contexts as c", "c.id", "tc.context_id")
+    .where("p.id", id)
+    .select("c.context");
+  return { project, tasks, resources, contexts };
 }
+
+// function findById(id) {
+//   return db("projects")
+//     .where({ id })
+//     .first();
+// }
 
 async function add(project) {
   const [id] = await db("projects").insert(project);
