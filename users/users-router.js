@@ -30,7 +30,7 @@ router.get("/:id", validateId, restricted, async (req, res, next) => {
 
 router.post("/", restricted, async (req, res, next) => {
   try {
-    const newuser = await userModel.add(req.body);
+    const newuser = await usersModel.add(req.body);
     res.status(201).json(newuser);
   } catch (err) {
     next(err);
@@ -40,7 +40,7 @@ router.post("/", restricted, async (req, res, next) => {
 router.put("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await userModel.update(id, req.body);
+    const user = await usersModel.update(id, req.body);
     res.json(user);
   } catch (err) {
     next(err);
@@ -50,7 +50,7 @@ router.put("/:id", restricted, async (req, res, next) => {
 router.delete("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedCount = await userModel.remove(id);
+    const deletedCount = await usersModel.remove(id);
 
     res.json({ removed: deletedCount });
   } catch (err) {
