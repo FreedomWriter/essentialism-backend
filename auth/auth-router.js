@@ -29,11 +29,12 @@ router.post(
       const hash = await bcrypt.hashSync(user.password, 10);
       user.password = hash;
       const newUser = await usersModel.add(user);
+      console.log(newUser);
       const token = await generateToken(newUser);
       res.status(201).json({
         message: `Welcome ${newUser.username}`,
         token: token,
-        userId: newUser.id
+        user: newUser
       });
     } catch (err) {
       next(err);
