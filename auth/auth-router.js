@@ -31,9 +31,9 @@ router.post(
       const newUser = await usersModel.add(user);
       const token = await generateToken(newUser);
       res.status(201).json({
-        message: `Welcome ${user.username}`,
+        message: `Welcome ${newUser.username}`,
         token: token,
-        userId: user.id
+        userId: newUser.id
       });
     } catch (err) {
       next(err);
