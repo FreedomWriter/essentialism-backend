@@ -35,6 +35,7 @@ async function findById(id) {
     .leftJoin("users as u", "u.id", "p.user_id")
     .leftJoin("user_data as ud", "ud.project_id", "p.id")
     .where("p.id", id)
+    .first()
     .select(
       "p.id",
       "p.user_id",
