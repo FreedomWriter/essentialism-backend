@@ -28,7 +28,7 @@ router.post(
       let user = req.body;
       const hash = bcrypt.hashSync(user.password, 10);
       user.password = hash;
-      const newUser = await db.add(user);
+      const newUser = await usersModel.add(user);
       const token = await genToken(newUser);
       res.status(201).json({
         message: `Welcome ${user.username}`,
