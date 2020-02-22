@@ -26,7 +26,7 @@ router.post(
   async (req, res, next) => {
     try {
       let user = req.body;
-      const hash = bcrypt.hashSync(user.password, 10);
+      const hash = await bcrypt.hashSync(user.password, 10);
       user.password = hash;
       const newUser = await usersModel.add(user);
       const token = await generateToken(newUser);
