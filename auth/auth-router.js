@@ -32,9 +32,10 @@ router.post(
       console.log(newUser);
       const token = await generateToken(newUser);
       res.status(201).json({
-        message: `Welcome ${newUser.username}`,
+        message: `Welcome ${user.username}!`,
         token: token,
-        user: newUser
+        user_id: user.id,
+        user: user
       });
     } catch (err) {
       next(err);
