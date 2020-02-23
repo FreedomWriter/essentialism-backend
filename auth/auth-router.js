@@ -47,16 +47,22 @@ router.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await usersModel.findBy({ username }).first();
-    const passwordValid = await bcrypt.compareSync(password, user.password, 10);
-
-    if (user && passwordValid) {
-      const token = generateToken(user);
-      res.status(200).json({
-        message: `Welcome ${user.username}!`,
-        token: token,
-        user_id: user.id,
-        user: user
-      });
+    console.log(user);
+    if (user !== undefined) {
+      const passwordValid = await bcrypt.compareSync(
+        password,
+        user.password,
+        10
+      );
+      if (passwordValid) {
+        const token = generateToken(user);
+        res.status(200).json({
+          message: `Welcome ${user.username}!`,
+          token: token,
+          user_id: user.id,
+          user: user
+        });
+      }
     } else {
       res.status(401).json({ message: "Invalid Credentials" });
     }
