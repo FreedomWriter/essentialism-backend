@@ -36,7 +36,6 @@ router.post(
       res.status(201).json({
         message: `Welcome ${user.username}!`,
         token: token,
-        user_id: user.id,
         user: newUser
       });
     } catch (err) {
@@ -61,7 +60,6 @@ router.post("/login", async (req, res, next) => {
         res.status(200).json({
           message: `Welcome ${user.username}!`,
           token: token,
-          user_id: user.id,
           user: user
         });
       }
