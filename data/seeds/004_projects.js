@@ -5,14 +5,15 @@ exports.seed = async function(knex) {
       id: 1,
       project_name: "Hire a Dev",
       project_description: "Need much code.",
-      user_id: 1
+      user_id: 1,
+      user_value_id: 1
     },
     {
       id: 2,
       project_name: "Develop a Developer",
       project_description: "Call me crazy, but this makes sense",
       user_id: 1,
-      value_id: 6
+      user_value_id: 2
     },
     { id: 3, project_name: "Reap the rewards", user_id: 1 }
   ]);

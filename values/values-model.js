@@ -9,6 +9,11 @@ function findById(id) {
     .where({ id })
     .first();
 }
+function findBy(filter) {
+  return db("values")
+    .select("id", "value", "value_description")
+    .where(filter);
+}
 
 async function add(value) {
   const [id] = await db("values").insert(value);
@@ -33,6 +38,7 @@ function remove(id) {
 
 module.exports = {
   find,
+  findBy,
   findById,
   add,
   update,

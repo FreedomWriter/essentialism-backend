@@ -12,10 +12,10 @@ function generateToken(user) {
     {
       userId: user.id
     },
-    process.env.JWT_SECRETS,
-    {
-      expiresIn: "7d"
-    }
+    process.env.JWT_SECRETS
+    // {
+    //   expiresIn: "7d"
+    // }
   );
 }
 
