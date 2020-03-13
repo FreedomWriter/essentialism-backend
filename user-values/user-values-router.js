@@ -47,8 +47,14 @@ router.post("/", validateUserValuePost, async (req, res, next) => {
 
 router.put("/:userValueId", validateUserValueId, async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const value = await userValueModel.update(id, req.body);
+    const { userValueId } = req.params;
+    console.log(`put: req.params.userValueId: `, userValueId);
+    const { user_value_description } = req.body;
+    console.log(
+      `const {user_value_description} = req.body`,
+      user_value_description
+    );
+    const value = await userValueModel.update(userValueId, req.body);
     res.json(value);
   } catch (err) {
     next(err);

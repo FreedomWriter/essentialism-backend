@@ -51,12 +51,12 @@ async function add(value) {
   }
 }
 
-async function update(id, body) {
+async function update(userValueId, body) {
   await db("user_values")
-    .where({ id })
+    .where("id", userValueId)
     .update(body);
 
-  return findById(id);
+  return findById(userValueId);
 }
 
 function remove(id) {
