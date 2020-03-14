@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/user_value_id", validateUserValueId, async (req, res, next) => {
+router.get("/:user_value_id", validateUserValueId, async (req, res, next) => {
   const { user_value_id } = req.params;
   const value = await db.findById(user_value_id);
   res.json(value);
@@ -48,7 +48,7 @@ router.post("/", validateUserValuePost, async (req, res, next) => {
   }
 });
 
-router.put("/user_value_id", validateUserValueId, async (req, res, next) => {
+router.put("/:user_value_id", validateUserValueId, async (req, res, next) => {
   try {
     const { user_value_id } = req.params;
     console.log(`put: req.params.userValueId: `, user_value_id);
@@ -60,6 +60,7 @@ router.put("/user_value_id", validateUserValueId, async (req, res, next) => {
     const value = await userValueModel.update(user_value_id, req.body);
     res.json(value);
   } catch (err) {
+    console.log(`error: err: `, err);
     next(err);
   }
 });

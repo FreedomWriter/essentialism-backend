@@ -27,18 +27,21 @@ function findBy(filter) {
 }
 
 async function findById(id) {
-  const user_value_by_id = await db("user_values as uv")
-    .where("uv.id", id)
-    .join("users as u", "u.id", "uv.user_id")
-    .first()
-    .select(
-      "uv.user_id",
-      "u.username",
-      "uv.id as user_value_id",
-      "uv.user_value",
-      "uv.user_value_description"
-    );
-  return user_value_by_id;
+  try {
+    const user_value_by_id = await db("user_values as uv")
+      .where("uv.id", id)
+      .join("users as u", "u.id", "uv.user_id")
+      .first(
+        "uv.user_id",
+        "u.username",
+        "uv.id as user_value_id",
+        "uv.user_value",
+        "uv.user_value_description"
+      );
+    return user_value_by_id;
+  } catch (err) {
+    return err;
+  }
 }
 
 async function add(value) {
