@@ -8,7 +8,7 @@ const validateId = require("../middleware/validateId");
 
 router.use("/:id/values", userValuesRouter);
 
-router.get("/", restricted, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await usersModel.find();
     res.json(users);
@@ -17,7 +17,7 @@ router.get("/", restricted, async (req, res, next) => {
   }
 });
 
-router.get("/:id", validateId, restricted, async (req, res, next) => {
+router.get("/:id", validateId, async (req, res, next) => {
   const { id } = req.params;
   const user = await usersModel.findById(id);
   res.json(user);
@@ -28,7 +28,7 @@ router.get("/:id", validateId, restricted, async (req, res, next) => {
   }
 });
 
-router.post("/", restricted, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const newuser = await usersModel.add(req.body);
     res.status(201).json(newuser);
@@ -37,7 +37,7 @@ router.post("/", restricted, async (req, res, next) => {
   }
 });
 
-router.put("/:id", restricted, async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await usersModel.update(id, req.body);
@@ -47,7 +47,7 @@ router.put("/:id", restricted, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", restricted, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await usersModel.remove(id);

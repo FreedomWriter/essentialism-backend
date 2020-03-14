@@ -19,6 +19,14 @@ async function add(user) {
   return findById(id);
 }
 
+async function update(id, body) {
+  await db("users")
+    .where({ id })
+    .update(body);
+
+  return findById(id);
+}
+
 function findById(id) {
   return db("users")
     .where({ id })
@@ -33,6 +41,7 @@ function remove(id) {
 
 module.exports = {
   add,
+  update,
   find,
   findBy,
   findById,
