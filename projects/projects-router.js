@@ -35,8 +35,10 @@ router.get(
 );
 
 router.post("/", async (req, res, next) => {
-  const { id } = req.params;
-  const { body } = req.params;
+  const { id, user_value_id } = req.params;
+  // const { user_value_id} = req.params
+  const { body } = req;
+  console.log({ id, user_value_id, body });
   try {
     const newproject = await projectModel.add(req.body);
     res.status(201).json(newproject);
