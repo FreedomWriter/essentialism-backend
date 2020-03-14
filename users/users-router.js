@@ -2,13 +2,11 @@ const router = require("express").Router();
 
 const usersModel = require("./users-model.js");
 const userValuesRouter = require("../user-values/user-values-router");
-const projectsRouter = require("../projects/projects-router");
 
 const restricted = require("../middleware/restricted");
 const validateId = require("../middleware/validateId");
 
 router.use("/:id/values", userValuesRouter);
-router.use("/:id/projects", projectsRouter);
 
 router.get("/", restricted, async (req, res, next) => {
   try {

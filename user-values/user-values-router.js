@@ -1,12 +1,15 @@
 const express = require("express");
 const userValueModel = require("./user-values-model");
 const db = require("./user-values-model");
+const projectsRouter = require("../projects/projects-router");
 const validateUserValueId = require("../middleware/validateUserValueId");
 const validateUserValuePost = require("../middleware/validateUserValuePost");
 
 const router = express.Router({
   mergeParams: true
 });
+
+router.use("/:user_value_id/projects", projectsRouter);
 
 router.get("/", async (req, res, next) => {
   try {
@@ -18,9 +21,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:userValueId", validateUserValueId, async (req, res, next) => {
-  const { userValueId } = req.params;
-  const value = await db.findById(userValueId);
+router.get("/user_value_id", validateUserValueId, async (req, res, next) => {
+  const { user_value_id } = req.params;
+  const value = await db.findById(user_value_id);
   res.json(value);
   try {
   } catch (err) {
@@ -45,23 +48,23 @@ router.post("/", validateUserValuePost, async (req, res, next) => {
   }
 });
 
-router.put("/:userValueId", validateUserValueId, async (req, res, next) => {
+router.put("/user_value_id", validateUserValueId, async (req, res, next) => {
   try {
-    const { userValueId } = req.params;
-    console.log(`put: req.params.userValueId: `, userValueId);
+    const { user_value_id } = req.params;
+    console.log(`put: req.params.userValueId: `, user_value_id);
     const { user_value_description } = req.body;
     console.log(
       `const {user_value_description} = req.body`,
       user_value_description
     );
-    const value = await userValueModel.update(userValueId, req.body);
+    const value = await userValueModel.update(user_value_id, req.body);
     res.json(value);
   } catch (err) {
     next(err);
   }
 });
 
-router.delete("/:userValueId", validateUserValueId, async (req, res, next) => {
+router.delete("/user_value_id", validateUserValueId, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedValue = await userValueModel.remove(id);
