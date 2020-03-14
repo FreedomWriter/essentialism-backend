@@ -25,10 +25,12 @@ router.get(
   async (req, res, next) => {
     const { project_id } = req.params;
     const project = await db.findById(project_id);
+    console.log(`project: `, project);
     res.json(project);
 
     try {
     } catch (err) {
+      console.log(`error.message: `, err.message);
       next(err);
     }
   }
