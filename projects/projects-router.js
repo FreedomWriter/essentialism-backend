@@ -18,6 +18,17 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/user", async (req, res, next) => {
+  // const { id } = req.params;
+  // return res.json({ message: `You got here with the user ${id}` });
+  try {
+    const projects = await db.find();
+    res.json(projects);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get(
   "/:project_id",
 
@@ -36,11 +47,15 @@ router.get(
 
 router.post("/", async (req, res, next) => {
   const { id, user_value_id } = req.params;
-  // const { user_value_id} = req.params
   const { body } = req;
-  console.log({ id, user_value_id, body });
+  console.log({ user_id: id, user_value_id: user_value_id, body });
   try {
-    const newproject = await projectModel.add(req.body);
+    const newproject = await projectModel.add({
+      user_id: id,
+      user_value_id,
+      project_name: body.project_name,
+      project_description: body.project_description
+    });
     res.status(201).json(newproject);
   } catch (err) {
     next(err);
