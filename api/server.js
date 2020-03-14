@@ -4,7 +4,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 
 const userRouter = require("../users/users-router");
-const projectsRouter = require("../projects/projects-router");
 const resourcesRouter = require("../resources/resource-router");
 const authRouter = require("../auth/auth-router");
 const valuesRouter = require("../values/values-router");
@@ -20,7 +19,7 @@ server.use(helmet());
 
 server.use("/api/auth", authRouter);
 server.use("/api/user", userRouter);
-server.use("/api/projects", projectsRouter);
+
 server.use("/api/resources", resourcesRouter);
 server.use("/api/values", valuesRouter);
 server.use("/api/contexts", contextsRouter);

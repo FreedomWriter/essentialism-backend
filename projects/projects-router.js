@@ -1,15 +1,15 @@
 const express = require("express");
 const projectModel = require("./projects-model");
 const db = require("./projects-model");
-const tasksRouter = require("../tasks/tasks.router");
 
-const restricted = require("../middleware/restricted");
 const validateProjectId = require("../middleware/validateProjectId");
-const router = express.Router();
+const router = express.Router({
+  mergeParams: true
+});
 
-router.use("/:id/tasks", tasksRouter);
-
-router.get("/", restricted, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
+  // const { id } = req.params;
+  // return res.json({ message: `You got here with the user ${id}` });
   try {
     const projects = await db.find();
     res.json(projects);
@@ -18,18 +18,23 @@ router.get("/", restricted, async (req, res, next) => {
   }
 });
 
-router.get("/:id", restricted, validateProjectId, async (req, res, next) => {
-  const { id } = req.params;
-  const project = await db.findById(id);
-  res.json(project);
+router.get(
+  "/:project_id",
 
-  try {
-  } catch (err) {
-    next(err);
+  validateProjectId,
+  async (req, res, next) => {
+    const { project_id } = req.params;
+    const project = await db.findById(project_id);
+    res.json(project);
+
+    try {
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-router.post("/", restricted, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const newproject = await projectModel.add(req.body);
     res.status(201).json(newproject);
@@ -38,25 +43,35 @@ router.post("/", restricted, async (req, res, next) => {
   }
 });
 
-router.put("/:id", restricted, validateProjectId, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const project = await projectModel.update(id, req.body);
-    res.json(project);
-  } catch (err) {
-    next(err);
-  }
-});
+router.put(
+  "/:project_id",
 
-router.delete("/:id", restricted, validateProjectId, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const deletedCount = await projectModel.remove(id);
-
-    res.json({ removed: deletedCount });
-  } catch (err) {
-    next(err);
+  validateProjectId,
+  async (req, res, next) => {
+    try {
+      const { project_id } = req.params;
+      const project = await projectModel.update(project_id, req.body);
+      res.json(project);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
+
+router.delete(
+  "/:project_id",
+
+  validateProjectId,
+  async (req, res, next) => {
+    try {
+      const { project_id } = req.params;
+      const deletedCount = await projectModel.remove(project_id);
+
+      res.json({ removed: deletedCount });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 module.exports = router;
