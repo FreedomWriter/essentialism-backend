@@ -8,6 +8,16 @@ async function find() {
   return Promise.all(projectsArr);
 }
 
+async function findByUser(user_id) {
+  const projects = await db("projects as p")
+    .select("p.id", "p.user_id", "p.project_name")
+    .where("p.user_id", user_id);
+  const projectsArr = await projects.map(
+    async project => await findById(project.id)
+  );
+  return Promise.all(projectsArr);
+}
+
 async function findById(id) {
   try {
     const project = await db("projects as p")
@@ -73,6 +83,7 @@ function remove(id) {
 module.exports = {
   find,
   findById,
+  findByUser,
   add,
   update,
   remove

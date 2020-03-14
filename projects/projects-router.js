@@ -19,10 +19,10 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/user", async (req, res, next) => {
-  // const { id } = req.params;
+  const { id } = req.params;
   // return res.json({ message: `You got here with the user ${id}` });
   try {
-    const projects = await db.find();
+    const projects = await db.findByUser(id);
     res.json(projects);
   } catch (err) {
     next(err);
