@@ -69,9 +69,6 @@ router.put(
   async (req, res, next) => {
     try {
       const { project_id } = req.params;
-      const { user_id } = req.params;
-      console.log(`project_id: `, project_id);
-      console.log(` body: `, req.body);
       const project = await projectModel.update({
         user_id: req.body.user_id,
         project_id: project_id,
