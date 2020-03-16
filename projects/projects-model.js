@@ -66,12 +66,16 @@ async function add(project) {
   return findById(id);
 }
 
-async function update(id, body) {
-  await db("projects")
-    .where({ id })
-    .update(body);
-
-  return findById(id);
+async function update(value) {
+  await db("projects as p")
+    .where({ id: value.body.project_id })
+    .update({
+      project_name: value.body.project_name,
+      project_description: value.body.project_description
+    });
+  const usersProjects = await findByUser(value.body.user_id);
+  console.log(`userProjects`, usersProjects);
+  return "testing and breaking";
 }
 
 function remove(id) {
