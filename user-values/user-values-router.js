@@ -35,13 +35,12 @@ router.post("/", validateUserValuePost, async (req, res, next) => {
   const { id } = req.params;
   const { user_value, user_value_description } = req.body;
   try {
-    console.log({ user_value, user_value_description, user_id: id });
     const newvalue = await userValueModel.add({
       user_value,
       user_value_description,
       user_id: id
     });
-    console.log(newvalue);
+
     res.status(201).json(newvalue);
   } catch (err) {
     next(err);
@@ -51,16 +50,12 @@ router.post("/", validateUserValuePost, async (req, res, next) => {
 router.put("/:user_value_id", validateUserValueId, async (req, res, next) => {
   try {
     const { user_value_id } = req.params;
-    console.log(`put: req.params.userValueId: `, user_value_id);
+
     const { user_value_description } = req.body;
-    console.log(
-      `const {user_value_description} = req.body`,
-      user_value_description
-    );
+
     const value = await userValueModel.update(user_value_id, req.body);
     res.json(value);
   } catch (err) {
-    console.log(`error: err: `, err);
     next(err);
   }
 });

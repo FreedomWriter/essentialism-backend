@@ -48,7 +48,7 @@ router.get(
 router.post("/", async (req, res, next) => {
   const { id, user_value_id } = req.params;
   const { body } = req;
-  console.log({ user_id: id, user_value_id: user_value_id, body });
+
   try {
     const newproject = await projectModel.add({
       user_id: id,

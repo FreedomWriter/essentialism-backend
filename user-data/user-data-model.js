@@ -14,9 +14,9 @@ function findById(id) {
 
 async function add(value_project) {
   const { value_id, project_id } = value_project;
-  console.log(value_project);
+
   const [id] = await db("user_data").insert(value_project);
-  console.log(id);
+
   return findById(id);
 }
 

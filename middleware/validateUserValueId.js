@@ -1,7 +1,6 @@
 const userValuesModel = require("../user-values/user-values-model");
 
 module.exports = async (req, res, next) => {
-  console.log(`validateUserValueId`, req.params.user_value_id);
   try {
     const userValue = await userValuesModel.findById(req.params.user_value_id);
     if (!userValue) {

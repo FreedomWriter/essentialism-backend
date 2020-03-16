@@ -29,7 +29,7 @@ router.post(
       const hash = await bcrypt.hashSync(user.password, 10);
       user.password = hash;
       const registerUser = await usersModel.add(user);
-      console.log(registerUser);
+
       const token = await generateToken(registerUser);
 
       const newUser = await usersModel.findById(registerUser.id);
@@ -48,7 +48,7 @@ router.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await usersModel.findBy({ username }).first();
-    console.log(user);
+
     if (user !== undefined) {
       const passwordValid = await bcrypt.compareSync(
         password,

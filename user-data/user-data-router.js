@@ -31,7 +31,6 @@ router.get("/:id", restricted, async (req, res, next) => {
 });
 
 router.post("/", restricted, async (req, res, next) => {
-  console.log(req.body);
   try {
     const newresource = await db.add(req.body);
     res.status(201).json(newresource);
@@ -60,7 +59,7 @@ router.delete("/:id", restricted, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedCount = await db.remove(id);
-    console.log(deletedCount);
+
     if (deletedCount) {
       res.json({ removed: deletedCount });
     } else {

@@ -46,7 +46,6 @@ async function findById(id) {
 
 async function add(value) {
   try {
-    console.log(value);
     const [id] = await db("user_values").insert(value);
     return findById(id);
   } catch (err) {
