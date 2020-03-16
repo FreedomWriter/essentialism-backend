@@ -67,15 +67,18 @@ async function add(project) {
 }
 
 async function update(value) {
+  // console.log(`value.body: `, value.body);
   await db("projects as p")
     .where({ id: value.body.project_id })
     .update({
       project_name: value.body.project_name,
       project_description: value.body.project_description
     });
-  const usersProjects = await findByUser(value.body.user_id);
-  console.log(`userProjects`, usersProjects);
-  return "testing and breaking";
+  // const project = await findByUser(value.body.user_id);
+  // console.log(`project`, project);
+  const findByIdLog = await findById(value.body.project_id);
+  console.log(`findById: `, findByIdLog);
+  return findByIdLog;
 }
 
 function remove(id) {
