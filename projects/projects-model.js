@@ -12,6 +12,7 @@ async function findByUser(user_id) {
   const projects = await db("projects as p")
     .select("p.id", "p.user_id", "p.project_name")
     .where("p.user_id", user_id);
+  console.log(`projects: `, projects);
   const projectsArr = await projects.map(
     async project => await findById(project.id)
   );
