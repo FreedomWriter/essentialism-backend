@@ -36,7 +36,10 @@ router.post(
       res.status(201).json({
         message: `Welcome ${user.username}!`,
         token: token,
-        user: newUser
+        user: {
+          id: newUser.id,
+          username: newUser.username
+        }
       });
     } catch (err) {
       next(err);
@@ -57,6 +60,7 @@ router.post("/login", async (req, res, next) => {
       );
       if (passwordValid) {
         const token = generateToken(user);
+        console.log(res.config);
         res.status(200).json({
           message: `Welcome ${user.username}!`,
           token: token,
