@@ -5,9 +5,8 @@ function find(project_id) {
     .join("projects as p", "t.project_id", "p.id")
     .where({ project_id })
     .select(
-      "p.project_name",
-      "p.project_description",
       "t.id",
+      "t.project_id",
       "t.task_description",
       "t.task_notes",
       "t.task_complete"

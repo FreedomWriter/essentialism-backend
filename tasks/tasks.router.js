@@ -8,10 +8,10 @@ const router = express.Router({
   mergeParams: true
 });
 
-router.get("/", restricted, validateProjectId, async (req, res, next) => {
+router.get("/", validateProjectId, async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const tasks = await taskModel.find(id);
+    const { project_id } = req.params;
+    const tasks = await taskModel.find(project_id);
     if (tasks) {
       res.json(tasks);
     } else {
@@ -23,10 +23,10 @@ router.get("/", restricted, validateProjectId, async (req, res, next) => {
 });
 
 // check model if this route is problematic
-router.post("/", restricted, validateProjectId, async (req, res, next) => {
+router.post("/", validateProjectId, async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const newTask = await taskModel.add(id, req.body);
+    const { project_id } = req.params;
+    const newTask = await taskModel.add(project_id, req.body);
 
     res.json(newTask);
   } catch (err) {
@@ -34,14 +34,14 @@ router.post("/", restricted, validateProjectId, async (req, res, next) => {
   }
 });
 router.get(
-  "/:taskId",
-  restricted,
+  "/:task_Id",
+
   validateProjectId,
   validateTaskId,
   async (req, res, next) => {
     try {
-      const { taskId } = req.params;
-      const task = await taskModel.findById(taskId);
+      const { task_id } = req.params;
+      const task = await taskModel.findById(task_id);
       res.json(task);
     } catch (err) {
       next(err);
@@ -49,10 +49,10 @@ router.get(
   }
 );
 
-router.post("/", restricted, validateProjectId, async (req, res, next) => {
-  const { id } = req.params;
+router.post("/", validateProjectId, async (req, res, next) => {
+  const { project_id } = req.params;
   try {
-    const newTask = await taskModel.add(id, req.body);
+    const newTask = await taskModel.add(project_id, req.body);
     res.status(201).json(newTask);
   } catch (err) {
     next(err);
@@ -60,14 +60,14 @@ router.post("/", restricted, validateProjectId, async (req, res, next) => {
 });
 
 router.put(
-  "/:taskId",
-  restricted,
+  "/:task_id",
+
   validateProjectId,
   validateTaskId,
   async (req, res, next) => {
     try {
-      const { taskId } = req.params;
-      const task = await taskModel.update(taskId, req.body);
+      const { task_id } = req.params;
+      const task = await taskModel.update(task_id, req.body);
       res.json(task);
     } catch (err) {
       next(err);
@@ -76,14 +76,14 @@ router.put(
 );
 
 router.delete(
-  "/:taskId",
-  restricted,
+  "/:task_id",
+
   validateProjectId,
   validateTaskId,
   async (req, res, next) => {
     try {
-      const { taskId } = req.params;
-      const deletedCount = await taskModel.remove(taskId);
+      const { task_id } = req.params;
+      const deletedCount = await taskModel.remove(task_id);
 
       res.json({ removed: deletedCount });
     } catch (err) {

@@ -1,15 +1,16 @@
 const express = require("express");
 const projectModel = require("./projects-model");
 const db = require("./projects-model");
+const tasksRouter = require("../tasks/tasks.router");
 
 const validateProjectId = require("../middleware/validateProjectId");
 const router = express.Router({
   mergeParams: true
 });
 
+router.use("/:project_id/tasks", tasksRouter);
+
 router.get("/", async (req, res, next) => {
-  // const { id } = req.params;
-  // return res.json({ message: `You got here with the user ${id}` });
   try {
     const projects = await db.find();
     res.json(projects);
@@ -20,7 +21,6 @@ router.get("/", async (req, res, next) => {
 
 router.get("/user", async (req, res, next) => {
   const { id } = req.params;
-  // return res.json({ message: `You got here with the user ${id}` });
   try {
     const projects = await db.findByUser(id);
     res.json(projects);
