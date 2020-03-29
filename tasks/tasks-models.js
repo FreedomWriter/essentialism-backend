@@ -7,6 +7,7 @@ function find(project_id) {
     .select(
       "t.id",
       "t.project_id",
+      "p.project_name",
       "t.task_description",
       "t.task_notes",
       "t.task_complete"

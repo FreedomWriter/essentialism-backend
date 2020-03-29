@@ -26,7 +26,10 @@ router.get("/", validateProjectId, async (req, res, next) => {
 router.post("/", validateProjectId, async (req, res, next) => {
   try {
     const { project_id } = req.params;
-    const newTask = await taskModel.add(project_id, req.body);
+    console.log(project_id);
+    let { body } = req;
+    body = { ...body, project_id };
+    const newTask = await taskModel.add(project_id, body);
 
     res.json(newTask);
   } catch (err) {
