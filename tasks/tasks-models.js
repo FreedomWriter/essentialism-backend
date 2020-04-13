@@ -1,4 +1,5 @@
 const db = require("../data/db.config");
+const projectModel = require("../projects/projects-router")
 
 function find(project_id) {
   return db("tasks as t")
