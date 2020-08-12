@@ -6,7 +6,7 @@ const validateUserValueId = require("../middleware/validateUserValueId");
 const validateUserValuePost = require("../middleware/validateUserValuePost");
 
 const router = express.Router({
-  mergeParams: true
+  mergeParams: true,
 });
 
 router.use("/:user_value_id/projects", projectsRouter);
@@ -31,14 +31,19 @@ router.get("/:user_value_id", validateUserValueId, async (req, res, next) => {
   }
 });
 
-router.post("/", validateUserValuePost, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const { id } = req.params;
+  // console.log(id);
+  console.log(req.body);
   const { user_value, user_value_description } = req.body;
+  console.log({ user_value });
+  console.log({ user_value_description });
+  console.log({ id });
   try {
     const newvalue = await userValueModel.add({
       user_value,
       user_value_description,
-      user_id: id
+      user_id: Number(id),
     });
 
     res.status(201).json(newvalue);

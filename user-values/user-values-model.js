@@ -54,17 +54,13 @@ async function add(value) {
 }
 
 async function update(userValueId, body) {
-  await db("user_values")
-    .where("id", userValueId)
-    .update(body);
+  await db("user_values").where("id", userValueId).update(body);
 
   return findById(userValueId);
 }
 
 function remove(id) {
-  return db("user_values")
-    .where({ id })
-    .del();
+  return db("user_values").where({ id }).del();
 }
 
 module.exports = {
@@ -73,5 +69,5 @@ module.exports = {
   findById,
   add,
   update,
-  remove
+  remove,
 };

@@ -1,24 +1,18 @@
-exports.up = async function(knex) {
-  await knex.schema.createTable("users", users => {
+exports.up = async function (knex) {
+  await knex.schema.createTable("users", (users) => {
     users.increments();
-    users
-      .string("username", 128)
-      .notNullable()
-      .unique();
+    users.string("username", 128).notNullable().unique();
     users.string("password", 128).notNullable();
   });
-  await knex.schema.createTable("values", tbl => {
+  await knex.schema.createTable("values", (tbl) => {
     tbl.increments();
     tbl.string("value").notNullable();
     tbl.text("value_description");
   });
 
-  await knex.schema.createTable("user_values", tbl => {
+  await knex.schema.createTable("user_values", (tbl) => {
     tbl.increments("id");
-    tbl
-      .string("user_value")
-      .notNullable()
-      .unique();
+    tbl.string("user_value").notNullable();
     tbl.text("user_value_description");
 
     tbl
@@ -30,12 +24,9 @@ exports.up = async function(knex) {
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
   });
-  await knex.schema.createTable("projects", tbl => {
+  await knex.schema.createTable("projects", (tbl) => {
     tbl.increments();
-    tbl
-      .string("project_name")
-      .notNullable()
-      .unique();
+    tbl.string("project_name").notNullable().unique();
     tbl.text("project_description");
     tbl.boolean("project_complete").defaultTo("false");
     tbl
@@ -85,7 +76,7 @@ exports.up = async function(knex) {
   //     .onDelete("CASCADE");
   // });
 
-  await knex.schema.createTable("tasks", tbl => {
+  await knex.schema.createTable("tasks", (tbl) => {
     tbl.increments();
     tbl.text("task_description").notNullable();
     tbl.text("task_notes");
@@ -99,12 +90,12 @@ exports.up = async function(knex) {
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
   });
-  await knex.schema.createTable("resources", tbl => {
+  await knex.schema.createTable("resources", (tbl) => {
     tbl.increments();
     tbl.string("resource_name").notNullable();
     tbl.text("resource_description");
   });
-  await knex.schema.createTable("project_resources", tbl => {
+  await knex.schema.createTable("project_resources", (tbl) => {
     tbl
       .integer("project_id")
       .notNullable()
@@ -123,11 +114,11 @@ exports.up = async function(knex) {
       .onDelete("CASCADE");
     tbl.primary(["project_id", "resource_id"]);
   });
-  await knex.schema.createTable("contexts", tbl => {
+  await knex.schema.createTable("contexts", (tbl) => {
     tbl.increments();
     tbl.text("context").notNullable();
   });
-  await knex.schema.createTable("task_contexts", tbl => {
+  await knex.schema.createTable("task_contexts", (tbl) => {
     tbl
       .integer("task_id")
       .notNullable()
@@ -148,7 +139,7 @@ exports.up = async function(knex) {
   });
 };
 
-exports.down = async function(knex) {
+exports.down = async function (knex) {
   await knex.schema.dropTableIfExists("task_contexts");
   await knex.schema.dropTableIfExists("contexts");
   await knex.schema.dropTableIfExists("project_resources");
