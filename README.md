@@ -1,8 +1,8 @@
 # API [Documentation](https://web.postman.co/collections/8779274-433ffecc-85ea-4883-adc4-097bc36d49df?version=latest&workspace=91e85325-9597-4da8-8ff5-bbe19a041df4#1dacacf9-12d9-4ddf-b621-d76d6fe72081)
 
-## 1️⃣ Backend delpoyed at [https://essentialism-back-end.herokuapp.com/api](https://essentialism-back-end.herokuapp.com/api) <br>
+## Backend delpoyed at [https://essentialism-back-end.herokuapp.com/api](https://essentialism-back-end.herokuapp.com/api) <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
 
@@ -21,6 +21,6 @@ To get the server running locally:
 - Jsonwebtoken
 - Bcryptjs
 
-## 2️⃣ Endpoints
+## Endpoints
 
 [Documentation](https://web.postman.co/collections/8779274-433ffecc-85ea-4883-adc4-097bc36d49df?version=latest&workspace=91e85325-9597-4da8-8ff5-bbe19a041df4#1dacacf9-12d9-4ddf-b621-d76d6fe72081)
