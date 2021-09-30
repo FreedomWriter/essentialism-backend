@@ -10,7 +10,7 @@ const router = express.Router();
 function generateToken(user) {
   return jwt.sign(
     {
-      userId: user.id
+      userId: user.id,
     },
     process.env.JWT_SECRETS
     // {
@@ -38,8 +38,8 @@ router.post(
         token: token,
         user: {
           id: newUser.id,
-          username: newUser.username
-        }
+          username: newUser.username,
+        },
       });
     } catch (err) {
       next(err);
@@ -50,6 +50,8 @@ router.post(
 router.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
+    console.log(req.body);
+    console.log(process.env.JWT_SECRETS);
     const user = await usersModel.findBy({ username }).first();
 
     if (user !== undefined) {
@@ -66,8 +68,8 @@ router.post("/login", async (req, res, next) => {
           token: token,
           user: {
             id: user.id,
-            username: user.username
-          }
+            username: user.username,
+          },
         });
       }
     } else {
