@@ -34,11 +34,10 @@ router.get(
 
   validateProjectId,
   async (req, res, next) => {
-    const { project_id } = req.params;
-    const project = await db.findById(project_id);
-    res.json(project);
-
     try {
+      const { project_id } = req.params;
+      const project = await db.findById(project_id);
+      res.json(project);
     } catch (err) {
       next(err);
     }
