@@ -4,16 +4,16 @@ exports.up = async function (knex) {
     users.string("username", 128).notNullable().unique();
     users.string("password", 128).notNullable();
   });
-  await knex.schema.createTable("values", (tbl) => {
+  await knex.schema.createTable("goals", (tbl) => {
     tbl.increments();
-    tbl.string("value").notNullable();
-    tbl.text("value_description");
+    tbl.string("goal").notNullable();
+    tbl.text("goal_description");
   });
 
-  await knex.schema.createTable("user_values", (tbl) => {
+  await knex.schema.createTable("user_goals", (tbl) => {
     tbl.increments("id");
-    tbl.string("user_value").notNullable();
-    tbl.text("user_value_description");
+    tbl.string("user_goal").notNullable();
+    tbl.text("user_goal_description");
 
     tbl
       .integer("user_id")
@@ -30,11 +30,11 @@ exports.up = async function (knex) {
     tbl.text("project_description");
     tbl.boolean("project_complete").defaultTo("false");
     tbl
-      .integer("user_value_id")
+      .integer("user_goal_id")
       .unsigned()
       .unique()
       .references("id")
-      .inTable("user_values")
+      .inTable("user_goals")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     tbl
@@ -58,12 +58,12 @@ exports.up = async function (knex) {
   //     .onUpdate("CASCADE")
   //     .onDelete("CASCADE");
   //   tbl
-  //     .integer("value_id")
+  //     .integer("goal_id")
   //     .notNullable()
   //     .unsigned()
   //     .unique()
   //     .references("id")
-  //     .inTable("values")
+  //     .inTable("goals")
   //     .onUpdate("CASCADE")
   //     .onDelete("CASCADE");
   //   tbl
@@ -147,7 +147,7 @@ exports.down = async function (knex) {
   await knex.schema.dropTableIfExists("tasks");
   // await knex.schema.dropTableIfExists("user_data");
   await knex.schema.dropTableIfExists("projects");
-  await knex.schema.dropTableIfExists("user_values");
-  await knex.schema.dropTableIfExists("values");
+  await knex.schema.dropTableIfExists("user_goals");
+  await knex.schema.dropTableIfExists("goals");
   await knex.schema.dropTableIfExists("users");
 };

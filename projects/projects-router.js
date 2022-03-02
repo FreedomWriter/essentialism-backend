@@ -5,7 +5,7 @@ const tasksRouter = require("../tasks/tasks.router");
 
 const validateProjectId = require("../middleware/validateProjectId");
 const router = express.Router({
-  mergeParams: true
+  mergeParams: true,
 });
 
 router.use("/:project_id/tasks", tasksRouter);
@@ -46,15 +46,15 @@ router.get(
 );
 
 router.post("/", async (req, res, next) => {
-  const { id, user_value_id } = req.params;
+  const { id, user_Goal_id } = req.params;
   const { body } = req;
 
   try {
     const newproject = await projectModel.add({
       user_id: id,
-      user_value_id,
+      user_Goal_id,
       project_name: body.project_name,
-      project_description: body.project_description
+      project_description: body.project_description,
     });
     res.status(201).json(newproject);
   } catch (err) {
@@ -72,7 +72,7 @@ router.put(
       const project = await projectModel.update({
         user_id: req.body.user_id,
         project_id: project_id,
-        body: req.body
+        body: req.body,
       });
       res.json(project);
     } catch (err) {

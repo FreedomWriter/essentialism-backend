@@ -1,19 +1,19 @@
 exports.seed = async function (knex) {
-  await knex("values").truncate();
-  await knex("values")
+  await knex("goals").truncate();
+  await knex("goals")
     .del()
     .then(function () {
       // Inserts seed entries
-      return knex("values").insert([
-        { id: 1, value: "Athletic ability", value_description: "" },
-        { id: 2, value: "Art and literature", value_description: "" },
-        { id: 3, value: "Creativity", value_description: "" },
+      return knex("goals").insert([
+        { id: 1, goal: "Athletic ability", Goal_description: "" },
+        { id: 2, goal: "Art and literature", Goal_description: "" },
+        { id: 3, goal: "Creativity", Goal_description: "" },
         {
           id: 4,
-          value: "Social Justice",
-          value_description: "",
+          goal: "Social Justice",
+          Goal_description: "",
         },
-        { id: 5, value: "Independence", value_description: "" },
+        { id: 5, goal: "Independence", Goal_description: "" },
       ]);
     });
 };

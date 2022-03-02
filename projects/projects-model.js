@@ -3,7 +3,7 @@ const db = require("../data/db.config");
 async function find() {
   const projects = await db("projects");
   const projectsArr = await projects.map(
-    async project => await findById(project.id)
+    async (project) => await findById(project.id)
   );
   return Promise.all(projectsArr);
 }
@@ -14,7 +14,7 @@ async function findByUser(user_id) {
     .where("p.user_id", user_id);
   console.log(`projects: `, projects);
   const projectsArr = await projects.map(
-    async project => await findById(project.id)
+    async (project) => await findById(project.id)
   );
   return Promise.all(projectsArr);
 }
@@ -22,7 +22,7 @@ async function findByUser(user_id) {
 async function findById(id) {
   try {
     const project = await db("projects as p")
-      .leftJoin("user_values as uv", "p.user_value_id", "uv.id")
+      .leftJoin("user_Goals as uv", "p.user_Goal_id", "uv.id")
       .leftJoin("users as u", "u.id", "p.user_id")
       .where("p.id", id)
       .first()
@@ -30,8 +30,8 @@ async function findById(id) {
         "p.id",
         "p.user_id",
         "u.username",
-        "p.user_value_id",
-        "uv.user_value",
+        "p.user_Goal_id",
+        "uv.user_Goal",
         "p.project_name",
         "p.project_description",
         "p.project_complete"
@@ -67,20 +67,16 @@ async function add(project) {
   return findById(id);
 }
 
-async function update(value) {
-  await db("projects as p")
-    .where({ id: value.body.project_id })
-    .update({
-      project_name: value.body.project_name,
-      project_description: value.body.project_description
-    });
-  return findById(value.body.project_id);
+async function update(goal) {
+  await db("projects as p").where({ id: goal.body.project_id }).update({
+    project_name: goal.body.project_name,
+    project_description: goal.body.project_description,
+  });
+  return findById(goal.body.project_id);
 }
 
 function remove(id) {
-  return db("projects")
-    .where({ id })
-    .del();
+  return db("projects").where({ id }).del();
 }
 
 module.exports = {
@@ -89,5 +85,5 @@ module.exports = {
   findByUser,
   add,
   update,
-  remove
+  remove,
 };

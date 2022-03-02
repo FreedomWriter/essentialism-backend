@@ -6,7 +6,7 @@ const cors = require("cors");
 const userRouter = require("../users/users-router");
 const resourcesRouter = require("../resources/resource-router");
 const authRouter = require("../auth/auth-router");
-const valuesRouter = require("../values/values-router");
+const GoalsRouter = require("../goals/goals-router");
 const contextsRouter = require("../contexts/context-router");
 const userDataRouter = require("../user-data/user-data-router");
 
@@ -21,7 +21,7 @@ server.use("/api/auth", authRouter);
 server.use("/api/user", userRouter);
 
 server.use("/api/resources", resourcesRouter);
-server.use("/api/values", valuesRouter);
+server.use("/api/goals", GoalsRouter);
 server.use("/api/contexts", contextsRouter);
 server.use("/api/user/data", userDataRouter);
 

@@ -1,12 +1,12 @@
 const router = require("express").Router();
 
 const usersModel = require("./users-model.js");
-const userValuesRouter = require("../user-values/user-values-router");
+const userGoalsRouter = require("../user-goals/user-goals-router");
 
 const restricted = require("../middleware/restricted");
 const validateId = require("../middleware/validateId");
 
-router.use("/:id/values", userValuesRouter);
+router.use("/:id/Goals", userGoalsRouter);
 
 router.get("/", async (req, res, next) => {
   try {
@@ -18,11 +18,10 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/:id", validateId, async (req, res, next) => {
-  const { id } = req.params;
-  const user = await usersModel.findById(id);
-  res.json(user);
-
   try {
+    const { id } = req.params;
+    const user = await usersModel.findById(id);
+    res.json(user);
   } catch (err) {
     next(err);
   }
