@@ -108,6 +108,6 @@ dist
 .vscode-test
 
 # database
-.db3
+*db3
 
 .env

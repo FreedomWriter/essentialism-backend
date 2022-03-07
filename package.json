@@ -30,6 +30,7 @@
     "morgan": "^1.10.0",
     "npm-check-updates": "^12.5.0",
     "pg": "^8.7.3",
+    "pg-promise": "^10.11.1",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {

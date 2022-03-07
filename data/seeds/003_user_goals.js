@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 
 exports.seed = async function (knex) {
-  await knex("user_Goals").truncate();
+  await knex("user_Goals").delete();
   await knex("user_Goals").insert([
     {
       id: 1,

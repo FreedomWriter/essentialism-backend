@@ -1,5 +1,5 @@
 exports.seed = async function (knex) {
-  await knex("goals").truncate();
+  await knex("goals").delete();
   await knex("goals")
     .del()
     .then(function () {
