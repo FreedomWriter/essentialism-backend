@@ -22,7 +22,7 @@ async function findByUser(user_id) {
 async function findById(id) {
   try {
     const project = await db("projects as p")
-      .leftJoin("user_Goals as uv", "p.user_Goal_id", "uv.id")
+      .leftJoin("user_goals as uv", "p.user_goal_id", "uv.id")
       .leftJoin("users as u", "u.id", "p.user_id")
       .where("p.id", id)
       .first()
@@ -30,8 +30,8 @@ async function findById(id) {
         "p.id",
         "p.user_id",
         "u.username",
-        "p.user_Goal_id",
-        "uv.user_Goal",
+        "p.user_goal_id",
+        "uv.user_goal",
         "p.project_name",
         "p.project_description",
         "p.project_complete"

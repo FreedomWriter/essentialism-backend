@@ -45,13 +45,13 @@ router.get(
 );
 
 router.post("/", async (req, res, next) => {
-  const { id, user_Goal_id } = req.params;
+  const { id, user_goal_id } = req.params;
   const { body } = req;
 
   try {
     const newproject = await projectModel.add({
       user_id: id,
-      user_Goal_id,
+      user_goal_id,
       project_name: body.project_name,
       project_description: body.project_description,
     });
