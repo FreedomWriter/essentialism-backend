@@ -5,7 +5,7 @@ async function find(id) {
   // const user_Goals = await db("user_Goals as uv")
   //   .where("user_id", id)
   //   .leftJoin("Goals as v", "v.id", "uv.Goal_id")
-  //   .select("uv.id", "v.goal", "v.Goal_description")
+  //   .select("uv.id", "v.goal", "v.goal_description")
   // return user_Goals;
   const user_Goal_by_id = await db("user_Goals as uv")
     .where("uv.user_id", id)
@@ -15,14 +15,14 @@ async function find(id) {
       "u.username",
       "uv.id as user_Goal_id",
       "uv.user_Goal",
-      "uv.user_Goal_description"
+      "uv.user_goal_description"
     );
   return user_Goal_by_id;
 }
 
 function findBy(filter) {
   return db("user_Goals")
-    .first("id", "user_Goal", "user_Goal_description")
+    .first("id", "user_Goal", "user_goal_description")
     .where({ user_Goal: filter });
 }
 
@@ -36,7 +36,7 @@ async function findById(id) {
         "u.username",
         "uv.id as user_Goal_id",
         "uv.user_Goal",
-        "uv.user_Goal_description"
+        "uv.user_goal_description"
       );
     return user_Goal_by_id;
   } catch (err) {

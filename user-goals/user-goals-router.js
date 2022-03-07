@@ -35,14 +35,14 @@ router.post("/", async (req, res, next) => {
   const { id } = req.params;
   // console.log(id);
   console.log(req.body);
-  const { user_Goal, user_Goal_description } = req.body;
+  const { user_Goal, user_goal_description } = req.body;
   console.log({ user_Goal });
-  console.log({ user_Goal_description });
+  console.log({ user_goal_description });
   console.log({ id });
   try {
     const newGoal = await userGoalModel.add({
       user_Goal,
-      user_Goal_description,
+      user_goal_description,
       user_id: Number(id),
     });
 
@@ -56,7 +56,7 @@ router.put("/:user_Goal_id", validateUserGoalId, async (req, res, next) => {
   try {
     const { user_Goal_id } = req.params;
 
-    const { user_Goal_description } = req.body;
+    const { user_goal_description } = req.body;
 
     const goal = await userGoalModel.update(user_Goal_id, req.body);
     res.json(goal);

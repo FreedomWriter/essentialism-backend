@@ -8,7 +8,7 @@ function findById(id) {
   return db("goals").where({ id }).first();
 }
 function findBy(filter) {
-  return db("goals").select("id", "goal", "Goal_description").where(filter);
+  return db("goals").select("id", "goal", "goal_description").where(filter);
 }
 
 async function add(goal) {

@@ -6,19 +6,19 @@ exports.seed = async function (knex) {
     {
       id: 1,
       user_Goal: "Progress",
-      user_Goal_description: "watch me work",
+      user_goal_description: "watch me work",
       user_id: 1,
     },
     {
       id: 2,
       user_Goal: "Love",
-      user_Goal_description: "watch me work",
+      user_goal_description: "watch me work",
       user_id: 1,
     },
     {
       id: 3,
       user_Goal: "Harmony",
-      user_Goal_description: "watch me work",
+      user_goal_description: "watch me work",
       user_id: 1,
     },
   ]);
