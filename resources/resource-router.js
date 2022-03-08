@@ -15,16 +15,16 @@ router.get("/", restricted, async (req, res, next) => {
 });
 
 router.get("/:id", restricted, async (req, res, next) => {
-  const { id } = req.params;
-  const resource = await db.findById(id);
-  if (resource) {
-    res.json(resource);
-  } else {
-    res
-      .status(404)
-      .json({ message: `Could not find resource with id of ${id}` });
-  }
   try {
+    const { id } = req.params;
+    const resource = await db.findById(id);
+    if (resource) {
+      res.json(resource);
+    } else {
+      res
+        .status(404)
+        .json({ message: `Could not find resource with id of ${id}` });
+    }
   } catch (err) {
     next(err);
   }

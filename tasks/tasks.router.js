@@ -5,7 +5,7 @@ const validateProjectId = require("../middleware/validateProjectId");
 const restricted = require("../middleware/restricted");
 
 const router = express.Router({
-  mergeParams: true
+  mergeParams: true,
 });
 
 router.get("/", validateProjectId, async (req, res, next) => {
