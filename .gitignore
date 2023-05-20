@@ -111,3 +111,4 @@ dist
 *db3
 
 .env
+.DS_Store
